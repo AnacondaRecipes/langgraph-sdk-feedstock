@@ -23,6 +23,9 @@ requirements:
     - python
     - httpx >=0.25.2
     - orjson >=3.10.1
+    # import failed with -> ModuleNotFoundError: No module named 'typing_extensions'
+    # https://github.com/langchain-ai/langgraph/blob/0.4.7/libs/sdk-py/langgraph_sdk/auth/types.py#L19
+    - typing_extensions
 
 test:
   imports:
@@ -32,8 +35,6 @@ test:
     - pip check
   requires:
     - pip
-    # import failed with -> ModuleNotFoundError: No module named 'typing_extensions'
-    - typing_extensions
 
 about:
   home: https://www.github.com/langchain-ai/langgraph
