@@ -32,6 +32,8 @@ test:
     - pip check
   requires:
     - pip
+    # import failed with -> ModuleNotFoundError: No module named 'typing_extensions'
+    - typing_extensions
 
 about:
   home: https://www.github.com/langchain-ai/langgraph
