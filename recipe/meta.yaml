@@ -31,6 +31,9 @@ test:
   imports:
     - langgraph_sdk
     - langgraph_sdk.auth
+    - langgraph_sdk.client
+    - langgraph_sdk.schema
+    - langgraph_sdk.sse
   commands:
     - pip check
   requires:
