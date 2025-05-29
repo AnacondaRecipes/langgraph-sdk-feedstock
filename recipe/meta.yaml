@@ -6,28 +6,34 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/langgraph_sdk-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name.replace('-', '_')}}-{{ version }}.tar.gz
   sha256: cc65ec33bcdf8c7008d43da2d2b0bc1dd09f98d21a7f636828d9379535069cf9
 
 build:
-  noarch: python
-  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   number: 0
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  skip: True  # [py<39]
 
 requirements:
   host:
-    - python >=3.9,<4.0
-    - hatchling
+    - python
     - pip
+    - hatchling
   run:
-    - python >=3.9.0,<4.0.0,<4.0
+    - python
     - httpx >=0.25.2
-    - httpx-sse >=0.4.0
     - orjson >=3.10.1
+    # import failed with -> ModuleNotFoundError: No module named 'typing_extensions'
+    # https://github.com/langchain-ai/langgraph/blob/0.4.7/libs/sdk-py/langgraph_sdk/auth/types.py#L19
+    - typing_extensions
 
 test:
   imports:
     - langgraph_sdk
+    - langgraph_sdk.auth
+    - langgraph_sdk.client
+    - langgraph_sdk.schema
+    - langgraph_sdk.sse
   commands:
     - pip check
   requires:
@@ -37,7 +43,11 @@ about:
   home: https://www.github.com/langchain-ai/langgraph
   summary: SDK for interacting with LangGraph API
   license: MIT
+  license_family: MIT
   license_file: LICENSE
+  description: This repository contains the Python SDK for interacting with the LangGraph Platform REST API.
+  dev_url: https://github.com/langchain-ai/langgraph/tree/main/libs/sdk-py
+  doc_url: https://github.com/langchain-ai/langgraph/blob/main/libs/sdk-py/README.md
 
 extra:
   recipe-maintainers:
