@@ -1,13 +1,16 @@
 {% set name = "langgraph-sdk" %}
-{% set version = "0.1.70" %}
+{% set version = "0.2.9" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name.replace('-', '_')}}-{{ version }}.tar.gz
-  sha256: cc65ec33bcdf8c7008d43da2d2b0bc1dd09f98d21a7f636828d9379535069cf9
+  - url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name.replace('-', '_')}}-{{ version }}.tar.gz
+    sha256: b3bd04c6be4fa382996cd2be8fbc1e7cc94857d2bc6b6f4599a7f2a245975303
+  - url: https://github.com/langchain-ai/langgraph/archive/refs/tags/sdk=={{ version }}.tar.gz
+    sha256: 9f50895801c3a8c860f1f58e49f275b634c2982287d7e13f5de63c3101516f2a
+    folder: gh_src
 
 build:
   number: 0
@@ -28,6 +31,9 @@ requirements:
     - typing_extensions
 
 test:
+  source_files:
+    - gh_src/libs/sdk-py/tests
+    - gh_src/docs/docs/cloud/reference/api/openapi.json
   imports:
     - langgraph_sdk
     - langgraph_sdk.auth
@@ -36,8 +42,12 @@ test:
     - langgraph_sdk.sse
   commands:
     - pip check
+    - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
+    - pytest -v gh_src/libs/sdk-py/tests
   requires:
     - pip
+    - pytest
+    - pytest-asyncio
 
 about:
   home: https://www.github.com/langchain-ai/langgraph
