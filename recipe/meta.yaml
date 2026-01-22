@@ -1,5 +1,5 @@
 {% set name = "langgraph-sdk" %}
-{% set version = "0.2.9" %}
+{% set version = "0.3.3" %}
 
 package:
   name: {{ name|lower }}
@@ -7,15 +7,15 @@ package:
 
 source:
   - url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name.replace('-', '_')}}-{{ version }}.tar.gz
-    sha256: b3bd04c6be4fa382996cd2be8fbc1e7cc94857d2bc6b6f4599a7f2a245975303
+    sha256: c34c3dce3b6848755eb61f0c94369d1ba04aceeb1b76015db1ea7362c544fb26
   - url: https://github.com/langchain-ai/langgraph/archive/refs/tags/sdk=={{ version }}.tar.gz
-    sha256: 9f50895801c3a8c860f1f58e49f275b634c2982287d7e13f5de63c3101516f2a
+    sha256: 8b03a98fb2fa3e9629f2a9f4fc6293831b9b13dc7baa427184baed7d4432e3d7
     folder: gh_src
 
 build:
-  number: 1
+  number: 0
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
-  skip: True  # [py<39]
+  skip: True  # [py<310]
 
 requirements:
   host:
@@ -32,8 +32,7 @@ requirements:
 
 test:
   source_files:
-    - gh_src/libs/sdk-py/tests
-    - gh_src/docs/docs/cloud/reference/api/openapi.json
+    - gh_src/libs/sdk-py
   imports:
     - langgraph_sdk
     - langgraph_sdk.auth
@@ -43,11 +42,13 @@ test:
   commands:
     - pip check
     - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
-    - pytest -v gh_src/libs/sdk-py/tests
+    - pytest -v gh_src/libs/sdk-py
   requires:
     - pip
     - pytest
     - pytest-asyncio
+    - pytest-mock
+    - pydantic >=2.12.4
 
 about:
   home: https://www.github.com/langchain-ai/langgraph
