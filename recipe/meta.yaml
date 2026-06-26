@@ -43,13 +43,16 @@ test:
   commands:
     - pip check
     - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
-    - pytest -v gh_src/libs/sdk-py
+    # tests/integration/ imports langgraph (not a dep of this package) and fails at collection
+    # before -m 'not integration' can filter it out
+    - pytest -v gh_src/libs/sdk-py --ignore=gh_src/libs/sdk-py/tests/integration
   requires:
     - pip
     - pytest
     - pytest-asyncio
     - pytest-mock
     - pydantic >=2.12.4
+    - starlette
 
 about:
   home: https://www.github.com/langchain-ai/langgraph
