@@ -1,5 +1,5 @@
 {% set name = "langgraph-sdk" %}
-{% set version = "0.3.3" %}
+{% set version = "0.4.2" %}
 
 package:
   name: {{ name|lower }}
@@ -7,9 +7,9 @@ package:
 
 source:
   - url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name.replace('-', '_')}}-{{ version }}.tar.gz
-    sha256: c34c3dce3b6848755eb61f0c94369d1ba04aceeb1b76015db1ea7362c544fb26
+    sha256: b88f0f5f6328ac0680d6790614a905b2bcfa257f2276dba4e38f0e86db0aa738
   - url: https://github.com/langchain-ai/langgraph/archive/refs/tags/sdk=={{ version }}.tar.gz
-    sha256: 8b03a98fb2fa3e9629f2a9f4fc6293831b9b13dc7baa427184baed7d4432e3d7
+    sha256: 86c2bddc800e7ccd45e5cc7b95e6d2d33a410f3899057e3216703271acd3f1f1
     folder: gh_src
 
 build:
@@ -25,10 +25,11 @@ requirements:
   run:
     - python
     - httpx >=0.25.2
-    - orjson >=3.10.1
-    # import failed with -> ModuleNotFoundError: No module named 'typing_extensions'
-    # https://github.com/langchain-ai/langgraph/blob/0.4.7/libs/sdk-py/langgraph_sdk/auth/types.py#L19
+    - langchain-core >=1.4.0,<2
+    - langchain-protocol >=0.0.15
+    - orjson >=3.11.5
     - typing_extensions
+    - websockets >=14,<16
 
 test:
   source_files:
