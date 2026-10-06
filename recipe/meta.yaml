@@ -1,5 +1,5 @@
 {% set name = "langgraph-sdk" %}
-{% set version = "0.4.2" %}
+{% set version = "0.4.5" %}
 
 package:
   name: {{ name|lower }}
@@ -7,9 +7,9 @@ package:
 
 source:
   - url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name.replace('-', '_')}}-{{ version }}.tar.gz
-    sha256: b88f0f5f6328ac0680d6790614a905b2bcfa257f2276dba4e38f0e86db0aa738
+    sha256: d49a98a2ee8e0c494b101a7caf8061c8b4b94d3ee5ada0ea2dbe50903a5487b1
   - url: https://github.com/langchain-ai/langgraph/archive/refs/tags/sdk=={{ version }}.tar.gz
-    sha256: 86c2bddc800e7ccd45e5cc7b95e6d2d33a410f3899057e3216703271acd3f1f1
+    sha256: 8905f48e8dcfbea620bdb43acfa977975ff47aaae1d6fa217d7e065ef969e8b9
     folder: gh_src
 
 build:
