@@ -29,7 +29,7 @@ requirements:
     - langchain-protocol >=0.0.15
     - orjson >=3.11.5
     - typing_extensions
-    - websockets >=14,<16
+    - websockets >=14,<17
 
 test:
   source_files:
