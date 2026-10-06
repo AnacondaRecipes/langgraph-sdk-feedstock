@@ -25,11 +25,11 @@ requirements:
   run:
     - python
     - httpx >=0.25.2
-    - langchain-core >=1.4.0,<2
-    - langchain-protocol >=0.0.15
     - orjson >=3.11.5
-    - typing_extensions
+    - langchain-protocol >=0.0.15
+    - langchain-core >=1.4.0,<2
     - websockets >=14,<17
+    - typing_extensions
 
 test:
   source_files:
