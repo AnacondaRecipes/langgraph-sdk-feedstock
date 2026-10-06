@@ -29,9 +29,6 @@ requirements:
     - langchain-protocol >=0.0.15
     - langchain-core >=1.4.0,<2
     - websockets >=14,<17
-    # import failed with -> ModuleNotFoundError: No module named 'typing_extensions'
-    # https://github.com/langchain-ai/langgraph/blob/0.4.7/libs/sdk-py/langgraph_sdk/auth/types.py#L19
-    - typing_extensions
 
 test:
   source_files:
