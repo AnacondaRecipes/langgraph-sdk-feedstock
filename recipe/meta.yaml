@@ -1,21 +1,18 @@
 {% set name = "langgraph-sdk" %}
-{% set version = "0.4.5" %}
+{% set version = "0.4.10" %}
 
 package:
-  name: {{ name|lower }}
+  name: {{ name }}
   version: {{ version }}
 
 source:
   - url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name.replace('-', '_')}}-{{ version }}.tar.gz
-    sha256: d49a98a2ee8e0c494b101a7caf8061c8b4b94d3ee5ada0ea2dbe50903a5487b1
-  - url: https://github.com/langchain-ai/langgraph/archive/refs/tags/sdk=={{ version }}.tar.gz
-    sha256: 8905f48e8dcfbea620bdb43acfa977975ff47aaae1d6fa217d7e065ef969e8b9
-    folder: gh_src
+    sha256: d8d7afd326b4df42ddc0878b7fbf53f03c3237c664c236bf5bac4ab16fc38ed9
 
 build:
   number: 0
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
-  skip: True  # [py<310]
+  skip: true  # [py<310]
 
 requirements:
   host:
@@ -32,7 +29,8 @@ requirements:
 
 test:
   source_files:
-    - gh_src/libs/sdk-py
+    - tests
+    - pyproject.toml
   imports:
     - langgraph_sdk
     - langgraph_sdk.auth
@@ -42,9 +40,8 @@ test:
   commands:
     - pip check
     - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
-    # tests/integration/ imports langgraph (not a dep of this package) and fails at collection
-    # before -m 'not integration' can filter it out
-    - pytest -v gh_src/libs/sdk-py --ignore=gh_src/libs/sdk-py/tests/integration
+    # integration tests require a live langgraph-api server on localhost:2024, so deselect them
+    - pytest -vv tests -m "not integration"
   requires:
     - pip
     - pytest
@@ -52,6 +49,7 @@ test:
     - pytest-mock
     - pydantic >=2.12.4
     - starlette
+    - langgraph
 
 about:
   home: https://www.github.com/langchain-ai/langgraph
